@@ -53,18 +53,51 @@ public class Cart {
 
   
     }
-        
 
-    
+    public void removeProduct(Product product) {
+        if (this.products.containsKey(product)) {
+            int quantity = this.products.get(product);
+            this.totalPrice -= product.price * quantity;
+            this.productCount -= quantity;
+            this.totalWeight -= product.weight * quantity;
+            this.products.remove(product);
+            System.out.println("Successfully removed " + product.name + " from the cart.");
+        } else {
+            System.out.println("Product not found in the cart.");
+        }
+    }
 
+    public void updateProductQuantity(Product product, int newQuantity) throws QuantityExceededException {
+        if (this.products.containsKey(product)) {
+            int availableQuantity = product.quantity;
+            if (newQuantity > availableQuantity) {
+                throw new QuantityExceededException("You cannot update to more than the available quantity!");
+            } else if (newQuantity <= 0) {
+                throw new QuantityExceededException("Quantity must be greater than zero!");
+            } else {
+                int oldQuantity = this.products.get(product);
+                
+                this.totalPrice -= oldQuantity * product.price;
+                this.productCount -= oldQuantity;
+                this.totalWeight -= oldQuantity * product.weight;
+                // Update the product quantity in the cart
+                this.totalPrice += newQuantity  * product.price;
+                this.productCount += newQuantity ;
+                this.totalWeight += newQuantity  * product.weight;
 
-  
+                this.products.put(product, newQuantity);
+                System.out.println("Successfully updated " + product.name + " quantity to " + newQuantity + ".");
+            }
+        } else {
+            System.out.println("Product not found in the cart.");
+        }
+    }
     public double getTotalPrice() {
         return this.totalPrice;
     }
 
 
-public Map<Product, Integer> getProducts() {
+    public Map<Product, Integer> getProducts() {
         return new HashMap<>(this.products);
     }
 
@@ -73,13 +106,11 @@ public Map<Product, Integer> getProducts() {
     }
 
     public double getTotalWeight() {
-    // double kg = this.totalWeight / 1000.0;
-    // kg = Math.round(kg * 100.0) / 100.0;
-    // return kg;
+
     return this.totalWeight; // Return total weight in grams
 }
 
-public double getShiping() {
+    public double getShiping() {
     double shippingCost = 0.0;
     if (getTotalWeight() > 5.0 ) {
         shippingCost = 30.0; // Flat rate for heavy packages
@@ -88,5 +119,12 @@ public double getShiping() {
     }
     return shippingCost;
 }
+
+    public void clearCart() {
+        this.products.clear();
+        this.totalPrice = 0.0;
+        this.productCount = 0;
+        this.totalWeight = 0.0;
+    }
 
 }

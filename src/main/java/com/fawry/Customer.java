@@ -7,7 +7,7 @@ public class Customer {
     private Cart cart;
 
     
-    public Customer(String name, double balance) {
+    public Customer(String name, double balance) throws IllegalArgumentException {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Customer name cannot be null or empty.");
         }

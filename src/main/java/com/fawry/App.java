@@ -30,13 +30,25 @@ public class App
             System.out.println(name + ": " + product.price + " USD, Quantity: " + product.quantity);
         });
 
-        Cart cart = new Cart();
+
+        Customer customer1 = null;
+        try {
+            // Creating a customer with valid parameters
+            customer1 = new Customer("Alice", 100.0);
+            System.out.println("Customer created: " + customer1.getName() + ", Balance: " + customer1.getBalance() + " USD");
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error creating customer: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("An unexpected error occurred while creating customer: " + e.getMessage());
+        }
+
+    
         try {
             // Adding products to the cart
-            cart.addProduct(product1, 2);
-            cart.addProduct(product2, 3);
-            System.out.println("Total price in cart: " + cart.getTotalPrice() + " USD");
-            System.out.println("Total product count in cart: " + cart.getProductCount());
+            customer1.getCart().addProduct(product1, 2);
+            customer1.getCart().addProduct(product2, 3);
+            System.out.println("Total price in cart: " + customer1.getCart().getTotalPrice() + " USD");
+            System.out.println("Total product count in cart: " + customer1.getCart().getProductCount());
         } catch (QuantityExceededException e) {
             System.err.println("Error adding product to cart: " + e.getMessage());
         } catch (Exception e) {
@@ -47,7 +59,7 @@ public class App
         
          try 
         {
-            checkout(cart); 
+            checkout(customer1); 
         }
         catch (IllegalArgumentException e) 
         {
@@ -65,30 +77,38 @@ public class App
 
     }
 
-    public static void checkout(Cart cart) throws IllegalArgumentException {
+    public static void checkout(Customer customer) throws IllegalArgumentException {
 
-    if (cart.getProducts().isEmpty()) {
+    if (customer.getCart().getProducts().isEmpty()) {
        throw new IllegalArgumentException("Cart is empty. Please add products before checking out.");
     }
     System.out.println("** Shipment notice **");
 
-    cart.getProducts().forEach((product, quantity) -> {
+    customer.getCart().getProducts().forEach((product, quantity) -> {
         System.out.println(quantity + "x " + product.name + "       " + product.weight * quantity + "kg ");
     });
 
     System.out.println();
-    System.out.println("Total package weight: " + cart.getTotalWeight() + "kg");
+    System.out.println("Total package weight: " + customer.getCart().getTotalWeight() + "kg");
 
     System.out.println("\n** Checkout receipt **");
-    cart.getProducts().forEach((product, quantity) -> {
+    customer.getCart().getProducts().forEach((product, quantity) -> {
         System.out.println(quantity + "x " + product.name + "       " + product.price*quantity + "USD ");
     });
 
     System.out.println("--------------------------------------");
-    System.out.println("Subtotal: " + cart.getTotalPrice() + " USD");
-    System.out.println("Shipping: " + cart.getShiping() + " USD");
-    System.out.println("Amount: " + (cart.getTotalPrice() + cart.getShiping()) + " USD");
+    System.out.println("Subtotal: " + customer.getCart().getTotalPrice() + " USD");
+    System.out.println("Shipping: " + customer.getCart().getShiping() + " USD");
+    System.out.println("Amount: " + (customer.getCart().getTotalPrice() + customer.getCart().getShiping()) + " USD");
 
+    if (customer.getBalance() < (customer.getCart().getTotalPrice() + customer.getCart().getShiping())) {
+        throw new IllegalArgumentException("Insufficient balance for checkout.");
+    }
+    else {
+        customer.deductBalance(customer.getCart().getTotalPrice() + customer.getCart().getShiping());
+        System.out.println("Checkout successful! Remaining balance: " + customer.getBalance() + " USD");
+        customer.getCart().clearCart();
+    }
 
 }
 
