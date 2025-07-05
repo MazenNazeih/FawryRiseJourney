@@ -1,4 +1,6 @@
 com\fawry\Cart.class
+com\fawry\Customer.class
+com\fawry\Shippable.class
 com\fawry\QuantityExceededException.class
 com\fawry\App.class
 com\fawry\Inventory.class

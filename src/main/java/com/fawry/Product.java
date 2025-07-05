@@ -3,7 +3,7 @@ package com.fawry;
 import java.time.LocalDate;
 
 
-public  class Product {
+public  class Product  implements Shippable {
     public String name;
     public double price;
     public int quantity;
@@ -55,5 +55,14 @@ public  class Product {
      public Product(String name, double price, int quantity, Boolean canExpire, double weight) {
         this(name, price, quantity, canExpire, weight, null);
      }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+    @Override
+    public double getWeight() {
+        return this.weight;
+    }
 
 }
