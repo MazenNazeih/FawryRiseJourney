@@ -13,17 +13,17 @@ This Java project simulates a simple **e-commerce system** including:
 
 ---
 
-## 🚀 Features
+## Features
 
-✅ Add products to an inventory (with or without expiration dates)  
-✅ Manage a customer's cart  
-✅ Calculate total cart price and shipping cost  
-✅ Print shipment notice and checkout receipt  
-✅ Deduct total amount from customer balance after successful checkout
+- Add products to an inventory (with or without expiration dates)  
+- Manage a customer's cart  
+- Calculate total cart price and shipping cost  
+- Print shipment notice and checkout receipt  
+- Deduct total amount from customer balance after successful checkout
 
 ---
 
-## 📄 Project Structure
+## Project Structure
 
 ```plaintext
 src/main/java/com/fawry/
@@ -38,9 +38,13 @@ src/main/java/com/fawry/
 
 ---
 
-## 🧾 Sample Output
+## Sample Output
+
+![Inventory Cart System Output Screenshot](Images/Screenshot-Output.png)
 
 ```plaintext
+Sample Output
+
 Inventory initialized with products:
 Chocolate: 2.5 USD, Quantity: 100
 Milk: 1.5 USD, Quantity: 200
@@ -55,23 +59,26 @@ Total product count in cart: 6
 
 
 ** Shipment notice **
-1x Bread       10.0kg 
-2x Chocolate       0.4kg 
-3x Milk       3.0kg 
+2x Chocolate       0.4kg
+1x Bread       10.0kg
+3x Milk       3.0kg
 
 Total package weight: 13.4kg
 
 
+
 ** Checkout receipt **
-1x Bread       1.0USD
 2x Chocolate       5.0USD
+1x Bread       1.0USD
 3x Milk       4.5USD
 --------------------------------------
 Subtotal: 10.5 USD
 Shipping: 30.0 USD
 Amount: 40.5 USD
 
+
 Checkout successful! Remaining balance: 59.5 USD
+
 
 Shipping the following products:
 Bread: 10.0kg
@@ -79,13 +86,15 @@ All products shipped successfully!
 
 ```
 
-## ⚙️ Build & Run
+## Build & Run
 
 Make sure you have **Maven** and **Java 17+** installed.
+- Naviagate to \fawry\FawryRiseJourney> and run the following commands in Powershell.
 
-```bash
+```powershell
 # Compile
 mvn clean compile
 
 # Run
-mvn exec:java -Dexec.mainClass="com.fawry.App"
+mvn exec:java '-Dexec.mainClass=com.fawry.App'
+
